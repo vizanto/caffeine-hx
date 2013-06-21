@@ -212,7 +212,7 @@ class ClassHandler extends TypeHandler<ClassCtx> {
 			var sc = ctx.scPathParams;
 			if(sc == null)
 				break;
-			ctx = cast ChxDocMain.findType(sc.path);
+			ctx = try { cast ChxDocMain.findType(sc.path); } catch (e:Dynamic) null;
 		}
 		return false;
 	}
