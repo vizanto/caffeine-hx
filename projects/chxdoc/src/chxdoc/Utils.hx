@@ -95,6 +95,7 @@ class Utils {
 			case TEnumdecl(t): t.path;
 			case TClassdecl(t): t.path;
 			case TTypedecl(t): t.path;
+			case TAbstractdecl(t): t.path;
 		};
 	}
 
@@ -112,6 +113,10 @@ class Utils {
 			case TClassdecl(c):
 				if(!expandClasses)
 					s += "\n"+indent+"TClassdecl(" + c.path + ")";
+				else s += "\n"+indent+Std.string(c);
+			case TAbstractdecl(c):
+				if(!expandClasses)
+					s += "\n"+indent+"TAbstractdecl(" + c.path + ")";
 				else s += "\n"+indent+Std.string(c);
 			}
 		}

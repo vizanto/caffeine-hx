@@ -75,7 +75,7 @@ typedef Ctx = {
 	**/
 
 	var originalDoc			: String;
-	var originalMeta		: Xml;
+	var originalMeta		: MetaData; //Xml;
 }
 
 /**

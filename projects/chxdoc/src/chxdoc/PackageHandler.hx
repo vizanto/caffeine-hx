@@ -90,6 +90,8 @@ class PackageHandler extends TypeHandler<PackageContext> {
 			case TClassdecl(c):
 				var info = setTypeParams(entry);
 				pkg.types.push(classHandler.pass1(c));
+			case TAbstractdecl(c):
+				// TODO
 			}
 		}
 		return pkg;

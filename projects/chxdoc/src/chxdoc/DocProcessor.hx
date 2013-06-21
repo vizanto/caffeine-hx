@@ -27,6 +27,7 @@
 
 package chxdoc;
 
+import haxe.rtti.CType;
 import chxdoc.Defines;
 import chxdoc.Types;
 import haxe.xml.Fast;
@@ -44,9 +45,9 @@ class DocProcessor {
 	/** The original doc, unixified in constructor **/
 	var doc		: String;
 	/** The original meta string **/
-	var meta	: Xml;
+	var meta	: MetaData;
 
-	private function new(pkg : PackageContext, ctx: Ctx, doc : String, meta : Xml) {
+	private function new(pkg : PackageContext, ctx: Ctx, doc : String, meta : MetaData) {
 		this.pkg = pkg;
 		this.ctx = ctx;
 		this.docCtx = {
@@ -71,7 +72,7 @@ class DocProcessor {
 		this.meta = meta;
 	}
 
-	public static function process(pkg : PackageContext, ctx: Ctx, doc : String, meta : Xml) : DocsContext
+	public static function process(pkg : PackageContext, ctx: Ctx, doc : String, meta : MetaData) : DocsContext
 	{
 		if( (doc == null || doc.length == 0) && (meta == null || !ChxDocMain.config.showMeta) )
 			return null;
@@ -118,20 +119,8 @@ class DocProcessor {
 
 		/// <meta><m n="values"><e>-1</e><e>100</e></m></meta>
 		if(meta != null && ChxDocMain.config.showMeta) {
-			var fast = new Fast(Xml.parse(Std.string(meta)).firstElement());
-			for(m in fast.nodes.m) {
-				var res = { name : "", value : "" };
-				if(!m.has.n)
-					continue;
-				res.name = m.att.n;
-				var first = true;
-				for(e in m.nodes.e) {
-					if(first)
-						first = false;
-					else
-						res.value += ",";
-					res.value += e.innerData;
-				}
+			for(m in meta) {
+				var res = { name : m.name, value : m.params.join(",") };
 				var recognized = false;
 				// merge metadata with same names as doc tags
 				if(ChxDocMain.config.mergeMeta) {

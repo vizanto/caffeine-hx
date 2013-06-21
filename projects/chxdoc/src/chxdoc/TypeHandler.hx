@@ -91,6 +91,8 @@ class TypeHandler<T> {
 			write("Unknown");
 		case CEnum(path,params):
 			processPath(path,params);
+		case CAbstract(path,params):
+			processPath(path,params);
 		case CClass(path,params):
 			processPath(path,params);
 		case CTypedef(path,params):
@@ -114,7 +116,7 @@ class TypeHandler<T> {
 			var me = this;
 			display(fields,function(f) {
 				me.write(f.name+" : ");
-				me.processType(f.t);
+				me.processType(f.type);
 			},", ");
 			write("}");
 		case CDynamic(t):
@@ -266,7 +268,7 @@ class TypeHandler<T> {
 		return c;
 	}
 
-	function createField(parentCtx : Ctx, name : String, isPrivate : Bool, platforms : List<String>, originalDoc : String, originalMeta : Xml) : FieldCtx {
+	function createField(parentCtx : Ctx, name : String, isPrivate : Bool, platforms : List<String>, originalDoc : String, originalMeta : MetaData) : FieldCtx {
 		var c : FieldCtx = {
 			type			: "field",
 
